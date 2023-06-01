@@ -1,41 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:dg="clr-namespace:Maui.DataGrid;assembly=Maui.DataGrid"
              x:Class="MauiDataGridSample.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
-
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
-        </VerticalStackLayout>
-    </ScrollView>
+    <Grid RowDefinitions="70,*">
+        <Button Text="Clear monkeys" Clicked="Button_Clicked" Margin="10" />
+        
+        <dg:DataGrid Grid.Row="1" ItemsSource="{Binding Monkeys}" SelectionEnabled="True" SelectedItem="{Binding SelectedMonkey}"
+                     RowHeight="70" HeaderHeight="50" PullToRefreshCommand="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}" HeaderBackground="Red">
+            <dg:DataGrid.NoDataView>
+                <Label Text="Nothing to see here 🙈" HorizontalOptions="Center" VerticalOptions="Center" />
+            </dg:DataGrid.NoDataView>
+            <dg:DataGrid.Columns>
+                <dg:DataGridColumn Title="Image" PropertyName="Image" Width="150" SortingEnabled="False">
+                    <dg:DataGridColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}" HorizontalOptions="Center" VerticalOptions="Center"
+                               Aspect="AspectFit" HeightRequest="60" />
+                        </DataTemplate>
+                    </dg:DataGridColumn.CellTemplate>
+                </dg:DataGridColumn>
+                <dg:DataGridColumn Title="Name" PropertyName="Name" />
+                <dg:DataGridColumn Title="Location" PropertyName="Location" />
+                <dg:DataGridColumn Title="Population" PropertyName="Population" />
+                <dg:DataGridColumn Title="Latitude" PropertyName="Latitude" />
+                <dg:DataGridColumn Title="Longitude" PropertyName="Longitude" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.RowsBackgroundColorPalette>
+                <dg:PaletteCollection>
+                    <Color>#F2F2F2</Color>
+                    <Color>#FFFFFF</Color>
+                </dg:PaletteCollection>
+            </dg:DataGrid.RowsBackgroundColorPalette>
+            <dg:DataGrid.Resources>
+                <ResourceDictionary>
+                    <!--<conv:StreakToColorConverter x:Key="StreakToColorConverter" />-->
+                </ResourceDictionary>
+            </dg:DataGrid.Resources>
+        </dg:DataGrid>
+    </Grid>
 
 </ContentPage>
