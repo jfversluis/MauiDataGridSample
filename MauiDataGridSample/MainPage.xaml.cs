@@ -13,16 +13,18 @@ namespace MauiDataGridSample
         public MainPage()
         {
             InitializeComponent();
+        }
 
-            Task.Run(async () =>
+        protected async override void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+
+            var monkeys = await httpClient.GetFromJsonAsync<Monkey[]>("https://montemagno.com/monkeys.json");
+
+            foreach (Monkey monkey in monkeys)
             {
-                var monkeys = await httpClient.GetFromJsonAsync<Monkey[]>("https://montemagno.com/monkeys.json");
-
-                foreach(Monkey monkey in monkeys)
-                {
-                    Monkeys.Add(monkey);
-                }
-            });
+                Monkeys.Add(monkey);
+            }
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
